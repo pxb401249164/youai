@@ -9,4 +9,5 @@ import tk.mybatis.mapper.common.Mapper;
  * @create: 2018-05-28 09:59
  **/
 public interface CategoryMapper extends Mapper<Category>, SelectByIdListMapper<Category,Long> {
+
 }

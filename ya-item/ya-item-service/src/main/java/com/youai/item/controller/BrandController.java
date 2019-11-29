@@ -6,6 +6,7 @@ import com.youai.item.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,9 +46,32 @@ public class BrandController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * 新增品牌
+     *
+     * @param brand
+     * @param ids
+     * @return
+     */
     @PostMapping
     public ResponseEntity<Void> saveBrand(Brand brand, @RequestParam("categories") List<Long> ids) {
         this.brandService.save(brand, ids);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    /**
+     * 根据分类id查询品牌列表
+     *
+     * @param cid
+     * @return
+     */
+    @GetMapping
+    public ResponseEntity<List<Brand>> queryBrandByCid(@PathVariable("cid") Long cid) {
+        List<Brand> brands = this.brandService.queryBrandByCid(cid);
+        if (CollectionUtils.isEmpty(brands)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(brands);
+    }
+
 }
